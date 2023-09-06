@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 const routes = require("./routes/recipeRoutes.js");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3500;
 
 // confugratuion
 dotenv.config({
@@ -18,7 +18,7 @@ dotenv.config({
 connectDB();
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json("CookingBlogSecure"));
+app.use(express.json());
 app.use(fielUpload());
 app.use(cors());
 app.use(
@@ -29,6 +29,6 @@ app.use(
   })
 );
 
-app.use("/", routes);
+app.use("/api/v1", routes);
 
 app.listen(port, () => console.log(`listening yo port ${port}`));

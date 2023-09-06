@@ -146,7 +146,7 @@ exports.submitRecipeOnPost = async (req, res) => {
     let newImageName;
 
     if (!req.files || Object.keys(req.files).length === 0) {
-      console.log("No file where uploaded.");
+      return res.status(500).json({ message: "No file where uploaded." });
     } else {
       imageUploadFile = req.files.image;
       newImageName = Date.now() + imageUploadFile.name;
@@ -155,7 +155,7 @@ exports.submitRecipeOnPost = async (req, res) => {
         require("path").resolve("./") + "/public/uploads/" + newImageName;
 
       imageUploadFile.mv(uploadPath, (err) => {
-        if (err) return res.status(500).send(err);
+        if (err) return res.status(500).json(err);
       });
     }
     const newRecipe = await Recipe.create({

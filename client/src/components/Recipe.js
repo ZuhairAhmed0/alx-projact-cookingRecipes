@@ -1,27 +1,16 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-function ExploreRandom({ API_URL }) {
-  const [recipe, setRecipe] = useState([]);
+import Ingredients from "./Ingredients";
+import { Link } from "react-router-dom";
 
-  useEffect(() => {
-    axios
-      .get(API_URL)
-      .then((response) => {
-        setRecipe(response.data.recipe);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+function Recipe({recipe}) {
   return (
     <>
       {recipe ? (
         <>
-          <h1 className="pb-4">Explore Latest</h1>
+          <h1 className="pb-4">{recipe.name}</h1>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 {recipe.name}
@@ -57,14 +46,7 @@ function ExploreRandom({ API_URL }) {
                 <div className="col-12">
                   <h2>Ingredients</h2>
                   <ul className="list-group list-group-flush">
-                    {recipe.ingredients &&
-                      recipe.ingredients.map((ingredients, index) => {
-                        return (
-                          <li className="list-group-item" key={index}>
-                            {ingredients}
-                          </li>
-                        );
-                      })}
+                    <Ingredients ingredients={recipe.ingredients}/>
                   </ul>
                 </div>
               </div>
@@ -72,10 +54,10 @@ function ExploreRandom({ API_URL }) {
           </div>
         </>
       ) : (
-        <p>No items found</p>
+        <p>No Recipes found</p>
       )}
     </>
   );
 }
 
-export default ExploreRandom;
+export default Recipe;

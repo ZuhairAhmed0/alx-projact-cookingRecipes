@@ -1,9 +1,9 @@
-// import logo from "";
-function Header() {
+import { Link } from "react-router-dom";
+function Header({ search, setSearch }) {
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-      <a
-        href="/"
+      <Link
+        to="/"
         className="d-flex flex-wrap align-items-center col-md-3 mb-md-0 text-dark text-decoration-none"
       >
         <img
@@ -12,35 +12,36 @@ function Header() {
           height="68"
           alt="Cooking blog - made with Node.js"
         />
-      </a>
+      </Link>
       <ul className="nav col12 co-md-auto mb-2 justify-content-center mb-md-0">
         <li>
-          <a href="/" className="nav-link px-2 link-secondary">
+          <Link to="/" className="nav-link px-2 link-secondary">
             Home
-          </a>
+          </Link>
         </li>
+
         <li>
-          <a href="/" className="nav-link px-2 link-secondary">
+          <Link to="/about" className="nav-link px-2 link-secondary">
             About
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="/submit-recipe"
+          <Link
+            to="/submit-recipe"
             id="SubmitRecipe"
             className="nav-link px-2 link-secondary"
           >
             Submit
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="nav-link px-2 link-secondary">
+          <Link to="/contact" className="nav-link px-2 link-secondary">
             Contact
-          </a>
+          </Link>
         </li>
       </ul>
       <div className="col-md-3 text-end">
-        <form action="/search" method="post">
+        <form onSubmit={(e) => e.preventDefault()}>
           <input
             type="text"
             name="searchTerm"
@@ -48,6 +49,8 @@ function Header() {
             className="form-control"
             placeholder="Search"
             aria-label="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </form>
       </div>

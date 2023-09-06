@@ -1,23 +1,18 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { Link } from "react-router-dom";
+import useAxiosFetch from "../hooks/useAxiosFetch";
+import Category from "./Category";
 import Food from "./Food";
 
-function Home({ API_URL }) {
+function Home() {
   const [categories, setCategories] = useState([]);
-  const [food, setFood] = useState([]);
+  const [foods, setFoods] = useState([]);
+  const { data } = useAxiosFetch("/");
 
   useEffect(() => {
-    axios
-      .get(API_URL)
-      .then((response) => {
-        const results = response.data;
-        setCategories(results.categories);
-        setFood(results.food);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+    setCategories(data.categories);
+    setFoods(Object.assign({}, data.food));
+  }, [data]);
 
   return (
     <>
@@ -34,18 +29,18 @@ function Home({ API_URL }) {
           </p>
 
           <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-            <a
-              href="/explore-latest"
+            <Link
+              to="/explore-latest"
               className="btn btn-dark btn-lg px-4 me-md-2"
             >
               Explore latest
-            </a>
-            <a
-              href="/explore-random"
+            </Link>
+            <Link
+              to="/explore-random"
               className="btn btn-outline-secondary btn-lg px-4 me-md-2"
             >
               Show Random
-            </a>
+            </Link>
           </div>
         </div>
         <div className="col-12 col-lg-6">
@@ -61,23 +56,9 @@ function Home({ API_URL }) {
       </div>
       {/* Categpries Start  */}
       <div className="row row-cols-2 row-cols-lg-6 g-3 g-gl-3 py-4">
-        {categories.map((category) => (
-          <a
-            key={category._id}
-            href={`/categories/${category.name}`}
-            className="col text-center category__link"
-          >
-            <div className="category__img shadow">
-              <img
-                src={`/images/${category.image}`}
-                alt={category.name}
-                loading="lazy"
-              />
-            </div>
-            <div className="py-3">{category.name}</div>
-          </a>
-        ))}
-        <a href="/categories" className="col text-center category__link">
+        <Category categories={categories}/>
+
+        <Link to="/categories" className="col text-center category__link">
           <div className="category__img shadow">
             <img
               src="/images/view-all.jpg"
@@ -86,24 +67,19 @@ function Home({ API_URL }) {
             />
           </div>
           <div className="py-3">View All</div>
-        </a>
+        </Link>
       </div>
       {/* Categpries End */}
       {/* <!-- Latest Start --> */}
       <section className="pt-4 pb-4">
         <div className="d-flex align-items-center mb-2">
           <h2>Latest Recipes</h2>
-          <a href="/explore-latest" className="ms-auto">
+          <Link to="/explore-latest" className="ms-auto">
             View More
-          </a>
+          </Link>
         </div>
 
-        <div className="row row-cols-2 row-cols-lg-5 g-3 g-gl-3">
-          {food.latest &&
-            food.latest.map((recipe) => {
-              return <Food recipe={recipe} key={recipe._id} />;
-            })}
-        </div>
+        <Food foods={foods.latest} />
       </section>
       {/* <!-- Latest End --> */}
 
@@ -111,17 +87,12 @@ function Home({ API_URL }) {
       <section className="pt-4 pb-4">
         <div className="d-flex align-items-center mb-2">
           <h2>Thai Recipes</h2>
-          <a href="/recipe/thai" className="ms-auto">
+          <Link to="/categories/Thai" className="ms-auto">
             View More
-          </a>
+          </Link>
         </div>
 
-        <div className="row row-cols-2 row-cols-lg-5 g-3 g-gl-3">
-          {food.latest &&
-            food.latest.map((recipe) => {
-              return <Food recipe={recipe} key={recipe._id} />;
-            })}
-        </div>
+        <Food foods={foods.thai} />
       </section>
       {/* <!-- Thai End --> */}
 
@@ -129,34 +100,24 @@ function Home({ API_URL }) {
       <section className="pt-4 pb-4">
         <div className="d-flex align-items-center mb-2">
           <h2>American Recipes</h2>
-          <a href="/recipe/american" className="ms-auto">
+          <Link to="/categories/American" className="ms-auto">
             View More
-          </a>
+          </Link>
         </div>
 
-        <div className="row row-cols-2 row-cols-lg-5 g-3 g-gl-3">
-          {food.latest &&
-            food.latest.map((recipe) => {
-              return <Food recipe={recipe} key={recipe._id} />;
-            })}
-        </div>
+        <Food foods={foods.american} />
       </section>
       {/* <!-- American End --> */}
       {/* <!-- chinese Start --> */}
       <section className="pt-4 pb-4">
         <div className="d-flex align-items-center mb-2">
           <h2>Chinese Recipes</h2>
-          <a href="/recipe/chinese" className="ms-auto">
+          <Link to="/categories/Chinese" className="ms-auto">
             View More
-          </a>
+          </Link>
         </div>
 
-        <div className="row row-cols-2 row-cols-lg-5 g-3 g-gl-3">
-          {food.latest &&
-            food.latest.map((recipe) => {
-              return <Food recipe={recipe} key={recipe._id} />;
-            })}
-        </div>
+        <Food foods={foods.chinese} />
       </section>
       {/* <!-- chinese End --> */}
       {/* Submit Start */}
@@ -176,12 +137,12 @@ function Home({ API_URL }) {
             Publish Your Recipe in front of thousands of people for free.
           </p>
           <div className="d-grid g-2 d-sm-flex justify-content-sm-center">
-            <a
-              href="/submit-recipe"
+            <Link
+              to="/submit-recipe"
               className="btn btn-primery btn-dark btn-lg"
             >
               Submit Recipe
-            </a>
+            </Link>
           </div>
         </div>
       </section>
