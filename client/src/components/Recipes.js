@@ -6,7 +6,7 @@ import Food from "./Food";
 function Recipes() {
   const [recipes, setRecipes] = useState([]);
   const { name } = useParams();
-  const { data } = useAxiosFetch(`/categories/${name}`);
+  const { data, isLoading, fetchError } = useAxiosFetch(`/categories/${name}`);
 
   useEffect(() => {
     setRecipes(data.food);
@@ -25,7 +25,11 @@ function Recipes() {
           </li>
         </ol>
       </nav>
-      <Food foods={recipes} />
+      {isLoading && <h1>Loading...</h1>}
+        {!isLoading && fetchError && <h1>{fetchError}</h1>}
+        {!isLoading && !fetchError && data && (
+          <Food foods={recipes} />
+        )}
     </>
   );
 }

@@ -4,7 +4,7 @@ import useAxiosFetch from "../hooks/useAxiosFetch";
 import Category from "./Category";
 function Categories() {
   const [categories, setCategories] = useState([]);
-  const { data } = useAxiosFetch("/categories");
+  const { data, isLoading, fetchError } = useAxiosFetch("/categories");
 
   useEffect(() => {
     setCategories(data.categories);
@@ -28,7 +28,11 @@ function Categories() {
       </nav>
 
       <div className="row row-cols-2 row-cols-lg-5 g-3 g-gl-2 mb-4">
-        <Category categories={categories} />
+        {isLoading && <h1>Loading...</h1>}
+        {!isLoading && fetchError && <h1>{fetchError}</h1>}
+        {!isLoading && !fetchError && data && (
+          <Category categories={categories} />
+        )}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import Food from "./Food";
 
 function ExploreLatest() {
   const [foods, setFoods] = useState([]);
-  const { data } = useAxiosFetch("/explore-latest");
+  const { data , isLoading, fetchError} = useAxiosFetch("/explore-latest");
 
   useEffect(() => {
     setFoods(data.recipe);
@@ -24,7 +24,9 @@ function ExploreLatest() {
           </li>
         </ol>
       </nav>
-      <Food foods={foods} />
+      {isLoading && <h1>Loading...</h1>}
+      {!isLoading && fetchError && <h1>{fetchError}</h1>}
+      {!isLoading && !fetchError && data &&   <Food foods={foods} />}
     </>
   );
 }
