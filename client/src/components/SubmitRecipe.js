@@ -360,85 +360,91 @@ function SubmitRecipe() {
                   }
                 />
               </div>
-              <label htmlFor="description" className="form-label">
-                Description
-              </label>
-              <textarea
-                name="description"
-                id="description"
-                className="form-control"
-                value={state.description}
-                onChange={(e) =>
-                  dispatch({ type: "SET_DESCRIPTION", payload: e.target.value })
-                }
-              ></textarea>
-            </div>
-            <div className="col-12">
-              <label htmlFor="category" className="form-label">
-                Select Category
-              </label>
-              <select
-                name="category"
-                id="category"
-                className="form-select form-control"
-                value={state.category}
-                onChange={(e) =>
-                  dispatch({ type: "SET_CATEGORY", payload: e.target.value })
-                }
-              >
-                <option value="">Select Category</option>
-                <option value="Thai">Thai</option>
-                <option value="American">American</option>
-                <option value="Chinese">Chinese</option>
-                <option value="Mexican">Mexican</option>
-                <option value="Indian">Indian</option>
-              </select>
-            </div>
-
-            <div className="col-12">
-              <label htmlFor="image" className="form-label">
-                Image
-              </label>
-              <input
-                type="file"
-                name="image"
-                id="image"
-                className="form-control"
-                onChange={(e) =>
-                  dispatch({ type: "SET_IMAGE", payload: e.target.files[0] })
-                }
-              />
-            </div>
-            {state.ingredients.map((ingredient, index) => (
-              <div className="col-12" key={ingredient.id}>
-                <label htmlFor={`ingredient-${index}`} className="form-label">
-                  Ingredient {index + 1}
+              <div className="col-12">
+                <label htmlFor="description" className="form-label">
+                  Description
                 </label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    name={`ingredient-${index}`}
-                    id={index}
-                    className="form-control"
-                    value={ingredient.value}
-                    onChange={handleChange}
-                  />
-                  {index === state.ingredients.length - 1 && (
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      onClick={handleClick}
-                    >
-                      Add Ingredient
-                    </button>
-                  )}
-                </div>
+                <textarea
+                  name="description"
+                  id="description"
+                  className="form-control"
+                  value={state.description}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_DESCRIPTION",
+                      payload: e.target.value,
+                    })
+                  }
+                ></textarea>
               </div>
-            ))}
-            <div className="col-12 mt-3">
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
+
+              <div className="col-12">
+                <label htmlFor="category" className="form-label">
+                  Select Category
+                </label>
+                <select
+                  name="category"
+                  id="category"
+                  className="form-select form-control"
+                  value={state.category}
+                  onChange={(e) =>
+                    dispatch({ type: "SET_CATEGORY", payload: e.target.value })
+                  }
+                >
+                  <option value="">Select Category</option>
+                  <option value="Thai">Thai</option>
+                  <option value="American">American</option>
+                  <option value="Chinese">Chinese</option>
+                  <option value="Mexican">Mexican</option>
+                  <option value="Indian">Indian</option>
+                </select>
+              </div>
+
+              <div className="col-12">
+                <label htmlFor="image" className="form-label">
+                  Image
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  className="form-control"
+                  onChange={(e) =>
+                    dispatch({ type: "SET_IMAGE", payload: e.target.files[0] })
+                  }
+                />
+              </div>
+              {state.ingredients.map((ingredient, index) => (
+                <div className="col-12" key={ingredient.id}>
+                  <label htmlFor={`ingredient-${index}`} className="form-label">
+                    Ingredient {index + 1}
+                  </label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      name={`ingredient-${index}`}
+                      id={index}
+                      className="form-control"
+                      value={ingredient.value}
+                      onChange={handleChange}
+                    />
+                    {index === state.ingredients.length - 1 && (
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={handleClick}
+                      >
+                        Add Ingredient
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+              <div className="col-12 mt-3">
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </div>
             </div>
           </form>
         </div>
