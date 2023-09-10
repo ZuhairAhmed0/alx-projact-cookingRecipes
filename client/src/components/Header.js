@@ -1,15 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-function Header({ setSearch }) {
-  const [searchResults, setSearchResults] = useState("");
-  const navigate = useNavigate();
-
-  const handleChange = (value) => {
-    setSearchResults(value);
-    setSearch(searchResults);
-    navigate("/");
-  };
-
+import { Link } from "react-router-dom";
+function Header({ search, setSearch }) {
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <Link
@@ -31,7 +21,7 @@ function Header({ setSearch }) {
         </li>
 
         <li>
-          <Link to="about" className="nav-link px-2 link-secondary">
+          <Link to="/about" className="nav-link px-2 link-secondary">
             About
           </Link>
         </li>
@@ -45,7 +35,7 @@ function Header({ setSearch }) {
           </Link>
         </li>
         <li>
-          <Link to="contact" className="nav-link px-2 link-secondary">
+          <Link to="/contact" className="nav-link px-2 link-secondary">
             Contact
           </Link>
         </li>
@@ -59,8 +49,8 @@ function Header({ setSearch }) {
             className="form-control"
             placeholder="Search"
             aria-label="search"
-            value={searchResults}
-            onChange={(e) => handleChange(e.target.value)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </form>
       </div>

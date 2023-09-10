@@ -13,7 +13,7 @@ const useAxiosFetch = (dataUrl) => {
     const fetchData = async (url) => {
       setIsLoading(true);
       try {
-        const response = await axios.get("https://api.cooking-recipes.zohair.tech" + url, {
+        const response = await axios.get("http://localhost:3500/api/v1" + url, {
           cancelToken: source.token,
         });
 
@@ -27,7 +27,7 @@ const useAxiosFetch = (dataUrl) => {
           setData([]);
         }
       } finally {
-        isMounted && setTimeout(() => setIsLoading(false), 500);
+        isMounted && setIsLoading(false);
       }
     };
 

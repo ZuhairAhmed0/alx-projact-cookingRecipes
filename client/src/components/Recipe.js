@@ -1,5 +1,5 @@
 import Ingredients from "./Ingredients";
-import Breadcrumb from "./Breadcrumb";
+import { Link } from "react-router-dom";
 
 function Recipe({recipe}) {
   return (
@@ -7,11 +7,16 @@ function Recipe({recipe}) {
       {recipe ? (
         <>
           <h1 className="pb-4">{recipe.name}</h1>
-          <Breadcrumb>
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item">
+                <Link to="/">Home</Link>
+              </li>
               <li className="breadcrumb-item active" aria-current="page">
                 {recipe.name}
               </li>
-            </Breadcrumb>
+            </ol>
+          </nav>
           <div className="row">
             <div className="col-12 col-md-4">
               <img

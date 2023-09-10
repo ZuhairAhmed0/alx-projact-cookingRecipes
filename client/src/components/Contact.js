@@ -10,7 +10,6 @@ function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      
     } catch (err) {
     } finally {
       navigate("/contact");
