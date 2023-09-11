@@ -127,6 +127,7 @@ exports.searchRecipe = async (req, res) => {
     const recipe = await Recipe.find({
       $text: { $search: searchTerm, $diacriticSensitive: true },
     });
+    console.log(recipe);
     res.status(200).json({ recipe });
   } catch (error) {
     res.status(500).send({ message: error.message || "error occured" });
@@ -149,31 +150,53 @@ exports.submitRecipeOnPost = async (req, res) => {
       return res.status(500).json({ message: "No file where uploaded." });
     } else {
       imageUploadFile = req.files.image;
-      newImageName = Date.now() + imageUploadFile.name;
+      newImageName = imageUploadFile.name;
 
       uploadPath =
-        require("path").resolve("./") + "/public/uploads/" + newImageName;
-
+        require("path").resolve("../client") +
+        "/public/uploads/" +
+        newImageName;
       imageUploadFile.mv(uploadPath, (err) => {
         if (err) return res.status(500).json(err);
       });
     }
+
     const newRecipe = await Recipe.create({
       name: req.body.name,
       description: req.body.description,
       email: req.body.email,
-      ingredients: req.body.ingredients,
+      ingredients: req.body.ingredients.split(","),
       category: req.body.category,
       image: newImageName,
     });
-    res.status(200).json({ newRecipe, message: "Recipe been has added" });
+    return res
+      .status(200)
+      .json({ newRecipe, message: "Recipe has been successfull" });
   } catch (error) {
-    const errors = {};
-    Object.keys(error.errors)
-      .map((err) => error.errors[err].properties)
-      .forEach((err) => {
-        errors[err.path] = err.message;
-      });
-    res.status(500).send({ message: errors || "error occured" });
+    res.status(500).json({ message: error.message || "error occured" });
+  }
+};
+
+/**
+ *
+ * DELETE /recipe/:id
+ * delete recipe details
+ *
+ */
+
+exports.deleteRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const recipe = await Recipe.findByIdAndDelete(id);
+    if (!recipe) {
+      return res.status(500).json({ message: "No Recipe found!" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Recipe has been successfull deleteed" });
+  } catch (error) {
+    res.status(500).json({ message: error.message || "error occured" });
   }
 };
