@@ -1,31 +1,38 @@
 const Category = require("../models/Category");
 const Recipe = require("../models/Recipe");
-
+const { validationResult } = require("express-validator");
 /**
  *
- * GET /
- * HomePage
+ * GET / 
+ * get all recipes and cateroies
+ * 
  */
 exports.homepage = async (req, res) => {
   try {
-    const limitNumber = 5;
+    const limitNumber = 5; // count of recipe
     const categories = await Category.find({}).limit(limitNumber);
+
+    // explore latest recipes
     const latest = await Recipe.find({}).sort({ _id: -1 }).limit(limitNumber);
 
+    // get thai recipes
     const thai = await Recipe.find({ category: "Thai" }).limit(limitNumber);
+
+    // get thai american
     const american = await Recipe.find({ category: "American" }).limit(
       limitNumber
     );
+
+    // get thai chinese
     const chinese = await Recipe.find({ category: "Chinese" }).limit(
       limitNumber
     );
     const food = { latest, thai, american, chinese };
 
+    // send data to user
     res.status(200).json({ categories, food });
-
-    // res.render("index", { title: "Home", categories, food });
   } catch (error) {
-    console.log(error);
+    // errors data to user
     res.status(500).send({ message: error.message || "error occured" });
   }
 };
@@ -33,7 +40,7 @@ exports.homepage = async (req, res) => {
 /**
  *
  * GET /categories
- * Categories
+ * get all Categories
  *
  */
 exports.exploreCategories = async (req, res) => {
@@ -48,8 +55,8 @@ exports.exploreCategories = async (req, res) => {
 
 /**
  *
- * GET /categories/:id
- * recipes by category name
+ * GET /categories/:name
+ * get recipes by category name
  *
  */
 exports.recipesByCategory = async (req, res) => {
@@ -119,7 +126,7 @@ exports.exploreRandom = async (req, res) => {
  *
  * Post /search
  * Search
- *searchTerm
+ * @searchTerm
  */
 exports.searchRecipe = async (req, res) => {
   try {
@@ -127,7 +134,6 @@ exports.searchRecipe = async (req, res) => {
     const recipe = await Recipe.find({
       $text: { $search: searchTerm, $diacriticSensitive: true },
     });
-    console.log(recipe);
     res.status(200).json({ recipe });
   } catch (error) {
     res.status(500).send({ message: error.message || "error occured" });
@@ -137,66 +143,44 @@ exports.searchRecipe = async (req, res) => {
 /**
  *
  * Post /submitRecipe
- * Submit Recipe
+ * Submit new Recipe
  *
  */
-exports.submitRecipeOnPost = async (req, res) => {
+exports.submitRecipe = async (req, res) => {
   try {
-    let imageUploadFile;
-    let uploadPath;
-    let newImageName;
+    const error = validationResult(req);
+    const errors = {};
+    error.array().forEach((err) => {
+      errors[err.path] = err.msg;
+    });
 
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(500).json({ message: "No file where uploaded." });
-    } else {
-      imageUploadFile = req.files.image;
-      newImageName = imageUploadFile.name;
-
-      uploadPath =
-        require("path").resolve("../client") +
-        "/public/uploads/" +
-        newImageName;
-      imageUploadFile.mv(uploadPath, (err) => {
-        if (err) return res.status(500).json(err);
-      });
+    // send error to user if inputs fields validtion failed
+    if (!error.isEmpty()) {
+      return res.status(500).json({ message: errors });
     }
 
+    // create new recipe and save to mongodb
     const newRecipe = await Recipe.create({
       name: req.body.name,
       description: req.body.description,
       email: req.body.email,
       ingredients: req.body.ingredients.split(","),
       category: req.body.category,
-      image: newImageName,
+      image: req.file.filename,
     });
-    return res
-      .status(200)
-      .json({ newRecipe, message: "Recipe has been successfull" });
-  } catch (error) {
-    res.status(500).json({ message: error.message || "error occured" });
-  }
-};
 
-/**
- *
- * DELETE /recipe/:id
- * delete recipe details
- *
- */
-
-exports.deleteRecipe = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const recipe = await Recipe.findByIdAndDelete(id);
-    if (!recipe) {
-      return res.status(500).json({ message: "No Recipe found!" });
+    // send error to user if create new recipe failed
+    if(!newRecipe) {
+      return res.status(500).json({ message: "Recipe added failed" });
     }
 
+    // send new recipe date to user and successfully message
     return res
       .status(200)
-      .json({ message: "Recipe has been successfull deleteed" });
+      .json({ newRecipe, message: "Recipe has been added successfully" });
   } catch (error) {
+
+    // send error to user if create new recipe failed
     res.status(500).json({ message: error.message || "error occured" });
   }
 };

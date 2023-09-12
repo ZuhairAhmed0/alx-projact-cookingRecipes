@@ -8,7 +8,7 @@ function Search({ search }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.post("/search", {
+        const response = await api.post("/submit-recipe", {
           searchTerm: search,
         });
         setRecipe(response.data);
@@ -22,7 +22,7 @@ function Search({ search }) {
 
   return (
     <div>
-      <h1 className="pb-4">Search Results</h1>
+      <h1 class="pb-4">Search Results</h1>
       <Food foods={recipe} />
     </div>
   );

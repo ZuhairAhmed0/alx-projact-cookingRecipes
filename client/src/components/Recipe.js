@@ -15,7 +15,7 @@ function Recipe({recipe}) {
           <div className="row">
             <div className="col-12 col-md-4">
               <img
-                src={`/uploads/${recipe.image}`}
+                src={`https://api.cooking-recipes.zohair.tech/images/${recipe.image}`}
                 className="img-fluid sticky-top"
                 style={{ top: "20px" }}
                 alt={recipe.name}

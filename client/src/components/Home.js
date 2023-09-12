@@ -8,7 +8,7 @@ import api from "../api/base";
 function Home({ search }) {
   const [categories, setCategories] = useState([]);
   const [foods, setFoods] = useState([]);
-  const { data } = useAxiosFetch("/");
+  const { data, isLoading } = useAxiosFetch("/");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
 
@@ -99,8 +99,11 @@ function Home({ search }) {
               <div className="py-3">View All</div>
             </Link>
           </div>
+	      
           {/* Categpries End */}
           {/* <!-- Latest Start --> */}
+	      {!isLoading && data && (
+		      <>
           <section className="pt-4 pb-4">
             <div className="d-flex align-items-center mb-2">
               <h2>Latest Recipes</h2>
@@ -149,6 +152,8 @@ function Home({ search }) {
 
             <Food foods={foods.chinese} />
           </section>
+	      </>
+	      )}
           {/* <!-- chinese End --> */}
           {/* Submit Start */}
           <section className="px-4 py-5 my-5 text-center">

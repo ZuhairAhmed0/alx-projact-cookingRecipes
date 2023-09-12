@@ -1,1 +1,1 @@
-# alx-projact-cookingRecipes
+Alx cooking recipes project

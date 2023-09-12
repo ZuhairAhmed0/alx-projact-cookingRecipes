@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import useAxiosFetch from "../hooks/useAxiosFetch";
 import Breadcrumb from "./Breadcrumb";
 import Category from "./Category";
@@ -15,11 +14,8 @@ function Categories() {
       <h2 className="pb-5">Explore Categories</h2>
 
       <Breadcrumb>
-        <li className="breadcrumb-item">
-          <Link to="/categories">Categories</Link>
-        </li>
         <li className="breadcrumb-item active" aria-current="page">
-          Explore Categories
+          Categories
         </li>
       </Breadcrumb>
 

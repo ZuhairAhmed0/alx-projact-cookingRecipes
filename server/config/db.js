@@ -32,7 +32,7 @@ const connectDB = async () => {
   // If the Node process ends, close the Mongoose connection
   process.on("SIGINT", function () {
     db.close();
-    console.log("Mongoose connection disconnected through app termination");
+    console.log("Mongoose disconnected through app termination");
     process.exit(0);
   });
 };
