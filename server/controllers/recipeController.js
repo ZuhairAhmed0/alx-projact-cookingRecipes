@@ -78,7 +78,7 @@ exports.recipesByCategory = async (req, res) => {
  * get recipe details
  *
  */
-exports.exploreRecipe = async (req, res) => {
+exports.recipeDetails = async (req, res) => {
   try {
     let recipeId = req.params.id;
     const recipe = await Recipe.findById(recipeId);
@@ -90,7 +90,7 @@ exports.exploreRecipe = async (req, res) => {
 
 /**
  *
- * GET /explore-latest
+ * GET /recipes/latest
  * Explore Latest
  *
  */
@@ -107,7 +107,7 @@ exports.exploreLatest = async (req, res) => {
 
 /**
  *
- * GET /explore-latest
+ * GET /recipes/random
  * Explore Latest
  *
  */
@@ -142,7 +142,7 @@ exports.searchRecipe = async (req, res) => {
 
 /**
  *
- * Post /submitRecipe
+ * Post /submit-recipe
  * Submit new Recipe
  *
  */

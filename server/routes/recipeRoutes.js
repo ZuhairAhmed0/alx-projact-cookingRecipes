@@ -6,7 +6,7 @@ const path = require("path");
 const validate = require("../middlewares/validtion");
 
 
-// config multer file name and  destination
+// Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/uploads");
@@ -17,11 +17,11 @@ const storage = multer.diskStorage({
 });
 
 
-// allowed only jpeg, jpg and png image format
+// Check file type for allowed extensions
 function checkFileType(file, cb) {
-  const filetypes = /jpeg|jpg|png/;
+  const allowedExtensions = /jpeg|jpg|png/;
 
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const extname = allowedExtensions.test(path.extname(file.originalname).toLowerCase());
   if (extname) {
     cb(null, true);
   } else {
@@ -29,7 +29,7 @@ function checkFileType(file, cb) {
   }
 }
 
-// multer configration
+// Multer configuration
 const upload = multer({
   storage: storage,
   fileFilter: function (req, file, cb) {
@@ -38,32 +38,32 @@ const upload = multer({
 });
 
 
-// get all food and categories
+// Get all food and categories
 router.get("/", recipeController.homepage);
 
-// get details of recipe  by recipe id
-router.get("/recipe/:id", recipeController.exploreRecipe);
-
-// get all categories
+// Get all categories
 router.get("/categories", recipeController.exploreCategories);
 
-// get recipes filter by category
+// Get recipes filtered by category
 router.get("/categories/:name", recipeController.recipesByCategory);
 
-// search in all recipes
+// Search for recipes
 router.post("/search", recipeController.searchRecipe);
 
-// explore latest recipes
-router.get("/explore-latest", recipeController.exploreLatest);
+// Explore latest recipes
+router.get("/recipes/latest", recipeController.exploreLatest);
 
-// explore random recipe
-router.get("/explore-random", recipeController.exploreRandom);
+// Explore random recipe
+router.get("/recipes/random", recipeController.exploreRandom);
 
-// add new recipe
+// Get recipe details by id
+router.get("/recipes/:id", recipeController.recipeDetails);
+
+// Add new recipe
 router.post(
   "/submit-recipe",
   upload.single("image"), // upload recipe image using multer
-  validate(), // validtion inputs fields using express validtion
+  validate(), // validtion input fields using express-validtion
   recipeController.submitRecipe
 );
 

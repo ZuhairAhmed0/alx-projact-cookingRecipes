@@ -4,8 +4,9 @@ import useAxiosFetch from "../hooks/useAxiosFetch";
 import Category from "./Category";
 import Food from "./Food";
 import api from "../api/base";
+import ViewMore from "./ViewMore";
 
-function Home({ search }) {
+function Home({ search, setSearch }) {
   const [categories, setCategories] = useState([]);
   const [foods, setFoods] = useState([]);
   const { data, isLoading } = useAxiosFetch("/");
@@ -37,11 +38,25 @@ function Home({ search }) {
     }
   }, [search]);
 
+  const handleClick = () => {
+    setIsSearch(false);
+    setSearch("");
+  };
   return (
     <>
       {isSearch ? (
         <>
           <h1 className="pb-4">Search Results</h1>
+          <button
+            style={{
+              textDecoration: "underline",
+              color: "#777",
+            }}
+            className="btn"
+            onClick={handleClick}
+          >
+            clear search
+          </button>
           <Food foods={searchResults} />
         </>
       ) : (
@@ -60,13 +75,13 @@ function Home({ search }) {
 
               <div className="d-grid gap-2 d-md-flex justify-content-md-start">
                 <Link
-                  to="/explore-latest"
+                  to="recipes/latest"
                   className="btn btn-dark btn-lg px-4 me-md-2"
                 >
                   Explore latest
                 </Link>
                 <Link
-                  to="/explore-random"
+                  to="recipes/random"
                   className="btn btn-outline-secondary btn-lg px-4 me-md-2"
                 >
                   Show Random
@@ -99,62 +114,38 @@ function Home({ search }) {
               <div className="py-3">View All</div>
             </Link>
           </div>
-	      
+
           {/* Categpries End */}
           {/* <!-- Latest Start --> */}
-	      {!isLoading && data && (
-		      <>
-          <section className="pt-4 pb-4">
-            <div className="d-flex align-items-center mb-2">
-              <h2>Latest Recipes</h2>
-              <Link to="explore-latest" className="ms-auto">
-                View More
-              </Link>
-            </div>
+          {!isLoading && data && (
+            <>
+              <section className="pt-4 pb-4">
+                <ViewMore title="Latest" link="recipes/latest" />
+                <Food foods={foods.latest} />
+              </section>
+              {/* <!-- Latest End --> */}
 
-            <Food foods={foods.latest} />
-          </section>
-          {/* <!-- Latest End --> */}
+              {/* <!-- Thai Start --> */}
+              <section className="pt-4 pb-4">
+                <ViewMore title="Thai" link="categories/Thai" />
+                <Food foods={foods.thai} />
+              </section>
+              {/* <!-- Thai End --> */}
 
-          {/* <!-- Thai Start --> */}
-          <section className="pt-4 pb-4">
-            <div className="d-flex align-items-center mb-2">
-              <h2>Thai Recipes</h2>
-              <Link to="categories/Thai" className="ms-auto">
-                View More
-              </Link>
-            </div>
-
-            <Food foods={foods.thai} />
-          </section>
-          {/* <!-- Thai End --> */}
-
-          {/* <!-- American Start --> */}
-          <section className="pt-4 pb-4">
-            <div className="d-flex align-items-center mb-2">
-              <h2>American Recipes</h2>
-              <Link to="categories/American" className="ms-auto">
-                View More
-              </Link>
-            </div>
-
-            <Food foods={foods.american} />
-          </section>
-          {/* <!-- American End --> */}
-          {/* <!-- chinese Start --> */}
-          <section className="pt-4 pb-4">
-            <div className="d-flex align-items-center mb-2">
-              <h2>Chinese Recipes</h2>
-              <Link to="categories/Chinese" className="ms-auto">
-                View More
-              </Link>
-            </div>
-
-            <Food foods={foods.chinese} />
-          </section>
-	      </>
-	      )}
-          {/* <!-- chinese End --> */}
+              {/* <!-- American Start --> */}
+              <section className="pt-4 pb-4">
+                <ViewMore title="American" link="categories/American" />
+                <Food foods={foods.american} />
+              </section>
+              {/* <!-- American End --> */}
+              {/* <!-- chinese Start --> */}
+              <section className="pt-4 pb-4">
+                <ViewMore title="Chinese" link="categories/Chinese" />
+                <Food foods={foods.chinese} />
+              </section>
+              {/* <!-- chinese End --> */}
+            </>
+          )}
           {/* Submit Start */}
           <section className="px-4 py-5 my-5 text-center">
             <img
@@ -173,7 +164,7 @@ function Home({ search }) {
               </p>
               <div className="d-grid g-2 d-sm-flex justify-content-sm-center">
                 <Link
-                  to="/submit-recipe"
+                  to="submit-recipe"
                   className="btn btn-primery btn-dark btn-lg"
                 >
                   Submit Recipe
@@ -181,7 +172,6 @@ function Home({ search }) {
               </div>
             </div>
           </section>
-
           {/* Submit End */}
         </>
       )}

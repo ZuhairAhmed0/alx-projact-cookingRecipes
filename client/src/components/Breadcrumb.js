@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 
-function Breadcrumb({ children }) {
+function Breadcrumb({ title }) {
   return (
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb">
         <li className="breadcrumb-item">
           <Link to="/">Home</Link>
         </li>
-        {children}
+        <li className="breadcrumb-item active" aria-current="page">
+          {title}
+        </li>
       </ol>
     </nav>
   );

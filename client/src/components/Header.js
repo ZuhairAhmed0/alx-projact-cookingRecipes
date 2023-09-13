@@ -1,12 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-function Header({ setSearch }) {
-  const [searchResults, setSearchResults] = useState("");
+function Header({ search, setSearch }) {
   const navigate = useNavigate();
 
   const handleChange = (value) => {
-    setSearchResults(value);
-    setSearch(searchResults);
+    setSearch(value);
     navigate("/");
   };
 
@@ -23,7 +20,7 @@ function Header({ setSearch }) {
           alt="Cooking blog - made with Node.js"
         />
       </Link>
-      <ul className="nav col12 co-md-auto mb-2 justify-content-center mb-md-0">
+      <ul className="nav col-md-auto mb-2 justify-content-center mb-md-0">
         <li>
           <Link to="/" className="nav-link px-2 link-secondary">
             Home
@@ -59,7 +56,7 @@ function Header({ setSearch }) {
             className="form-control"
             placeholder="Search"
             aria-label="search"
-            value={searchResults}
+            value={search}
             onChange={(e) => handleChange(e.target.value)}
           />
         </form>

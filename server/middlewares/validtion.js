@@ -22,10 +22,14 @@ const validate = () => {
       .trim()
       .escape(),
     body("ingredients")
-      .notEmpty()
-      .withMessage("Please enter ingredients of recipe")
       .trim()
-      .escape(),
+      .custom((value, { req }) => {
+        const isEmpty = value.split(",").filter((val) => val).length;
+        if (isEmpty < value.split(",").length) {
+          throw new Error("Please enter all ingredients");
+        }
+        return true;
+      }),
     body("category")
       .isString()
       .notEmpty()

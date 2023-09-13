@@ -7,7 +7,7 @@ function Category({ categories }) {
         categories.map(({ _id: id, name, image }) => (
           <Link
             key={id}
-            to={name}
+            to={`/categories/${name}`}
             className="col text-center category__link"
           >
             <div className="category__img category__img--large shadow">

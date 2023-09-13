@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useAxiosFetch from "../hooks/useAxiosFetch";
 import Breadcrumb from "./Breadcrumb";
 import Food from "./Food";
+import Loading from "./Loading";
 
 function Recipes() {
   const [recipes, setRecipes] = useState([]);
@@ -15,13 +16,8 @@ function Recipes() {
   return (
     <>
       <h2 className="pb-5">{name} Recipes</h2>
-
-      <Breadcrumb>
-        <li className="breadcrumb-item active" aria-current="page">
-          {name} Recipes
-        </li>
-      </Breadcrumb>
-      {isLoading && <h1>Loading...</h1>}
+      <Breadcrumb title={`${name} Recipes`} />
+      {isLoading && <Loading />}
       {!isLoading && fetchError && <h1>{fetchError}</h1>}
       {!isLoading && !fetchError && data && <Food foods={recipes} />}
     </>

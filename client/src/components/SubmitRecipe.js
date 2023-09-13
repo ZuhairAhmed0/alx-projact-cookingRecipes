@@ -22,10 +22,8 @@ function SubmitRecipe() {
 
   const handleChange = useCallback(
     (e) => {
-      const index = e.target.id;
-      const value = e.target.value;
       const newIngredients = [...state.ingredients];
-      newIngredients[index].value = value;
+      newIngredients[e.target.id].value = e.target.value;
       setState({ ingredients: newIngredients });
     },
     [state]
@@ -60,7 +58,7 @@ function SubmitRecipe() {
           headers: { "Content-Type": "multipart/form-data" },
         });
         setFetchError(null);
-        navigate(`/recipe/${response.data.newRecipe._id}`);
+        navigate(`/recipes/${response.data.newRecipe._id}`);
       } catch (err) {
         setFetchError(err.response?.data.message || { fail: err.message });
         isSubmiting(true);
@@ -91,13 +89,11 @@ function SubmitRecipe() {
             <div className="row g-3">
               <div className="col-12">
                 <label htmlFor="email" className="form-label">
-                  Email{" "}
-                  {fetchError.email && (
-                    <span className="text-danger" style={{ fontSize: "15px" }}>
-                      {" "}
-                      {fetchError.email}
-                    </span>
-                  )}
+                  Email
+                  <span className="text-danger" style={{ fontSize: "15px" }}>
+                    {" "}
+                    {fetchError?.email}
+                  </span>
                 </label>
                 <input
                   type="email"
@@ -110,13 +106,11 @@ function SubmitRecipe() {
               </div>
               <div className="col-12">
                 <label htmlFor="name" className="form-label">
-                  Recipe Name{" "}
-                  {fetchError.name && (
-                    <span className="text-danger" style={{ fontSize: "15px" }}>
-                      {" "}
-                      {fetchError.name}
-                    </span>
-                  )}
+                  Recipe Name
+                  <span className="text-danger" style={{ fontSize: "15px" }}>
+                    {" "}
+                    {fetchError?.name}
+                  </span>
                 </label>
                 <input
                   type="text"
@@ -129,13 +123,11 @@ function SubmitRecipe() {
               </div>
               <div className="col-12">
                 <label htmlFor="description" className="form-label">
-                  Description{" "}
-                  {fetchError.description && (
-                    <span className="text-danger" style={{ fontSize: "15px" }}>
-                      {" "}
-                      {fetchError.description}
-                    </span>
-                  )}
+                  Description
+                  <span className="text-danger" style={{ fontSize: "15px" }}>
+                    {" "}
+                    {fetchError?.description}
+                  </span>
                 </label>
                 <textarea
                   name="description"
@@ -148,13 +140,11 @@ function SubmitRecipe() {
 
               <div className="col-12">
                 <label htmlFor="category" className="form-label">
-                  Select Category{" "}
-                  {fetchError.category && (
-                    <span className="text-danger" style={{ fontSize: "15px" }}>
-                      {" "}
-                      {fetchError.category}
-                    </span>
-                  )}
+                  Select Category
+                  <span className="text-danger" style={{ fontSize: "15px" }}>
+                    {" "}
+                    {fetchError?.category}
+                  </span>
                 </label>
                 <select
                   name="category"
@@ -174,13 +164,11 @@ function SubmitRecipe() {
 
               <div className="col-12">
                 <label htmlFor="image" className="form-label">
-                  Image{" "}
-                  {fetchError.image && (
-                    <span className="text-danger" style={{ fontSize: "15px" }}>
-                      {" "}
-                      {fetchError.image}
-                    </span>
-                  )}
+                  Image
+                  <span className="text-danger" style={{ fontSize: "15px" }}>
+                    {" "}
+                    {fetchError?.image}
+                  </span>
                 </label>
                 <input
                   type="file"
@@ -192,15 +180,15 @@ function SubmitRecipe() {
               </div>
               {state.ingredients.map((ingredient, index) => (
                 <div className="col-12" key={ingredient.id}>
-                  <label htmlFor={index} className="form-label">
-                    Ingredient {index + 1}{" "}
-                    {fetchError.ingredients && (
+                  <label htmlFor="ingredients" className="form-label">
+                    Ingredient {index + 1}
+                    {index === 0 && (
                       <span
                         className="text-danger"
                         style={{ fontSize: "15px" }}
                       >
                         {" "}
-                        {fetchError.ingredients}
+                        {fetchError?.ingredients}
                       </span>
                     )}
                   </label>
@@ -226,8 +214,16 @@ function SubmitRecipe() {
                 </div>
               ))}
               <div className="col-12 mt-3">
-                <button type="submit" className="btn btn-primary">
-                  {submiting ? "Submit" : "please wait"}
+                <button type="submit" className="btn btn-primary loading-wait">
+                  {submiting ? (
+                    "Submit"
+                  ) : (
+                    <>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>

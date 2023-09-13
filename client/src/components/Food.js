@@ -8,7 +8,7 @@ function Food({ foods }) {
           return (
             <Link
               key={recipe._id}
-              to={`/recipe/${recipe._id}`}
+              to={`recipes/${recipe._id}`}
               className="col text-center category__link"
             >
               <div className="category__img category__img-large shadow">
