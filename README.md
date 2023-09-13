@@ -17,7 +17,7 @@ The cooking recipes blog is live at [cooking-recipes.zohair.tech](https://cookin
 
 ## Authors
 
-The blog articles are written by Zuhair Ahmed. You can find him on LinkedIn at [LinkedIn](www.linkedin.com/in/Zuhair)
+The blog articles are written by Zuhair Ahmed. You can find him on LinkedIn at [LinkedIn](https://linkedin.com/in/ZuhairAhmeed)
 
 ## Installation
 
