@@ -4,7 +4,7 @@ A food blog sharing delicious recipes for home chefs.
 
 ## Screenshot
 
-![Screenshot of the cooking recipes blog homepage](server/uploads/home-big.png)
+![Screenshot of the cooking recipes blog homepage](server/public/uploads/home-big.png)
 
 
 ## Introduction 
