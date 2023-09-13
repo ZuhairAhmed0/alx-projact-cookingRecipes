@@ -4,7 +4,7 @@ A food blog sharing delicious recipes for home chefs.
 
 ## Screenshot
 
-![Screenshot of the cooking recipes blog homepage](https://api.cooking-recipes.zohair.tech/images/home-big.png)
+![Screenshot of the cooking recipes blog homepage](server/uploads/home-big.png)
 
 
 ## Introduction 
@@ -25,7 +25,7 @@ The blog articles are written by Zuhair Ahmed. You can find him on LinkedIn at [
 
 2. Install backend dependencies:
 
-   - Navigate to the `/server` directory: `cd cooking-recipes-blog/server`
+   - Navigate to the `/server` directory: `cd alx-projact-cookingRecipes/server`
    - Install packages: `npm install`
 
 3. Install frontend dependencies:
