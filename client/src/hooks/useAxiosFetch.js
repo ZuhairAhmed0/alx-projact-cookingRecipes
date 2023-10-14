@@ -13,7 +13,7 @@ const useAxiosFetch = (dataUrl) => {
     const fetchData = async (url) => {
       setIsLoading(true);
       try {
-        const response = await axios.get("https://api.cooking-recipes.zohair.tech" + url, {
+        const response = await axios.get("https://api-cookingrecipes.onrender.com/api/v1" + url, {
           cancelToken: source.token,
         });
 
