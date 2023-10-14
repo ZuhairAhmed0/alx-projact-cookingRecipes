@@ -13,7 +13,7 @@ function Food({ foods }) {
             >
               <div className="category__img category__img-large shadow">
                 <img
-                  src={`https://api.cooking-recipes.zohair.tech/images/${recipe.image}`}
+                  src={`https://api-cookingrecipes.onrender.com/uploads/${recipe.image}`}
                   alt={recipe.name}
                   loading="lazy"
                 />
